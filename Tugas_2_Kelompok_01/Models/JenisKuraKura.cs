@@ -8,7 +8,7 @@ namespace Tugas_2_Kelompok_01.Models
 
         [Required(ErrorMessage = "Judul wajib diisi.")]
         [MaxLength(30, ErrorMessage = "Judul maksimal 30 karakter.")]
-        public string judul { get; set; }
+        public string jenis { get; set; }
 
         [Required(ErrorMessage = "Penulis wajib diisi.")]
         [MaxLength(30, ErrorMessage = "Penulis maksimal 30 karakter.")]
