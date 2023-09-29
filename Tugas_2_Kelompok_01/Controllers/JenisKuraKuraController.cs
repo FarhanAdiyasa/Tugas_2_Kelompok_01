@@ -3,28 +3,26 @@ using Tugas_2_Kelompok_01.Models;
 
 namespace Tugas_2_Kelompok_01.Controllers
 {
-    public class KuraKuraController : Controller
+    public class JenisKuraKuraController : Controller
     {
-        private static List<KuraKura> kuras = InitializeData();
+        private static List<JenisKuraKura> jeniss = InitializeData();
 
-        private static List<KuraKura> InitializeData()
+        private static List<JenisKuraKura> InitializeData()
         {
-            List<KuraKura> initialData = new List<KuraKura>
+            List<JenisKuraKura> initialData = new List<JenisKuraKura>
             {
-                new KuraKura
+                new JenisKuraKura
                 {
                     id = 1,
-                    nama = "Cizi",
                     namajenis = "Kura-Kura Ambon",
-                    harga = "Rp.500.000",
+                    stok = "3",
                     status = 1
                 },
-                new KuraKura
+                new JenisKuraKura
                 {
                     id = 2,
-                    nama = "Pat",
                     namajenis = "Kura-Kura Brazil",
-                    harga = "Rp.650.000",
+                    stok = "5",
                     status = 1
                 }
             };
@@ -34,8 +32,8 @@ namespace Tugas_2_Kelompok_01.Controllers
 
         public IActionResult Index()
         {
-            List<KuraKura> kuraList = kuras.ToList();
-            return View(kuraList);
+            List<JenisKuraKura> JenisList = jeniss.ToList();
+            return View(JenisList);
         }
 
         [HttpGet]
@@ -45,44 +43,44 @@ namespace Tugas_2_Kelompok_01.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(KuraKura kura)
+        public IActionResult Create(JenisKuraKura jenis)
         {
             if (ModelState.IsValid)
             {
                 int new_id = 1;
 
-                while (kuras.Any(b => b.id == new_id))
+                while (jeniss.Any(b => b.id == new_id))
                 {
                     new_id++;
                 }
 
-                kura.id = new_id;
-                kura.status = 1;
+                jenis.id = new_id;
+                jenis.status = 1;
 
-                kuras.Add(kura);
+                jeniss.Add(jenis);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
                 return RedirectToAction("Index");
             }
 
-            return View(kura);
+            return View(jenis);
         }
 
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var response = new { success = false, message = "Gagal menghapus kura-kura." };
+            var response = new { success = false, message = "Gagal menghapus Jenis kura-kura." };
 
             try
             {
-                var kura = kuras.FirstOrDefault(b => b.id == id);
-                if (kura != null)
+                var jenis = jeniss.FirstOrDefault(b => b.id == id);
+                if (jenis != null)
                 {
-                    kuras.Remove(kura);
-                    response = new { success = true, message = "Kura-kura berhasil dihapus." };
+                    jeniss.Remove(jenis);
+                    response = new { success = true, message = "Jenis Kura-kura berhasil dihapus." };
                 }
                 else
                 {
-                    response = new { success = false, message = "Kura-kura tidak ditemukan." };
+                    response = new { success = false, message = "Jenis Kura-kura tidak ditemukan." };
                 }
             }
             catch (Exception ex)
@@ -96,37 +94,36 @@ namespace Tugas_2_Kelompok_01.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            KuraKura kura = kuras.FirstOrDefault(b => b.id == id);
+            JenisKuraKura jenis = jeniss.FirstOrDefault(b => b.id == id);
 
-            if (kura == null)
+            if (jenis == null)
             {
                 return NotFound();
             }
 
-            return View(kura);
+            return View(jenis);
         }
 
         [HttpPost]
-        public IActionResult Edit(KuraKura kura)
+        public IActionResult Edit(JenisKuraKura jenis)
         {
             if (ModelState.IsValid)
             {
-                KuraKura newKura = kuras.FirstOrDefault(b => b.id == kura.id);
+                JenisKuraKura newJenis = jeniss.FirstOrDefault(b => b.id == jenis.id);
 
-                if (newKura == null)
+                if (newJenis == null)
                 {
                     return NotFound();
                 }
 
-                newKura.nama = kura.nama;
-                newKura.namajenis = kura.namajenis;
-                newKura.harga = kura.harga;
+                newJenis.namajenis = jenis.namajenis;
+                newJenis.stok = jenis.stok;
  
-                TempData["SuccessMessage"] = "Kura-kura berhasil diupdate.";
+                TempData["SuccessMessage"] = "Jenis Kura-kura berhasil diupdate.";
                 return RedirectToAction("Index");
             }
 
-            return View(kura);
+            return View(jenis);
         }
 
 
