@@ -1,0 +1,161 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Tugas_2_Kelompok_01.Models.KuraKura>
+@{
+    ViewData["Title"] = "Master Buku";
+    int no = 1;
+}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Master Kura-Kura</h5>
+                    <hr />
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="row">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle me-1"></i>
+                                <strong>Sukses!</strong> @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    }
+
+                    <a class="btn btn-primary" asp-action="Create">Tambah Buku</a>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Judul</th>
+                                <th scope="col">Penulis</th>
+                                <th scope="col">Penerbit</th>
+                                <th scope="col">ISSN</th>
+                                <th scope="col">Tahun Terbit</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var buku in Model)
+                            {
+                                <tr>
+                                    <td>@(no++)</td>
+                                    <td>@buku.id</td>
+                                    <td>@buku.nama</td>
+                                    <td>@buku.namajenis</td>
+                                    <td>@buku.harga</td>
+                                    <td>@buku.status</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger delete-button" data-toggle="modal" data-target="#deleteModal_@buku.id">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-info btn-info-modal" data-toggle="modal" data-target="#editModal_@buku.id">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-info btn-info-modal" data-toggle="modal" data-target="#infoModal_@buku.id">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+
+
+                                        @*Edit Modal*@
+                                        <div class="modal fade" id="editModal_@buku.id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Kura-Kura</h5>
+                                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                                        </button>
+                                                    </div>
+                                                    <form method="post" asp-controller="KuraKura" asp-action="Edit" asp-route-id="@buku.id">
+                                                    <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label asp-for="@buku.nama" class="control-label">Nama</label>
+                                                                <input asp-for="@buku.nama" class="form-control" name="nama" />
+                                                                <span asp-validation-for="@buku.nama" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="@buku.namajenis" class="control-label">Nama Jenis</label>
+                                                                <input asp-for="@buku.namajenis" class="form-control" name="namajenis" />
+                                                                <span asp-validation-for="@buku.namajenis" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="@buku.harga" class="control-label">Penerbit</label>
+                                                                <input asp-for="@buku.harga" class="form-control" name="harga" />
+                                                                <span asp-validation-for="@buku.harga" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="@buku.status" class="control-label">ISSN</label>
+                                                                <input asp-for="@buku.status" class="form-control" name="status" />
+                                                                <span asp-validation-for="@buku.status" class="text-danger"></span>
+                                                            </div>
+                                                            <br />
+                                                            <div class="form-group">
+                                                                
+                                                            </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*Info Modal*@
+                                        <div class="modal fade" id="infoModal_@buku.id" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Informasi Buku</h5>
+                                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <strong>Id:</strong> @buku.id<br />
+                                                        <strong>Judul:</strong> @buku.nama<br />
+                                                        <strong>Penulis:</strong> @buku.nama<br />
+                                                        <strong>Penerbit:</strong> @buku.harga<br />
+                                                        <strong>ISSN:</strong> @buku.status<br />
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        @*Delete Modal*@
+                                        <div class="modal fade" id="deleteModal_@buku.id" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Delete Data</h5>
+                                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p><i class="fas fa-exclamation-triangle text-warning"></i> Apakah Anda yakin ingin menghapus kura-kura ini?</p>
+                                                    </div>
+                                                    <form method="post" asp-controller="KuraKura" asp-action="Delete" asp-route-id="@buku.id">
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Delete</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

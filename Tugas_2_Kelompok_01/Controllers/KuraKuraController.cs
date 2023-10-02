@@ -90,44 +90,33 @@ namespace Tugas_2_Kelompok_01.Controllers
                 response = new { success = false, message = ex.Message };
             }
 
-            return Json(response);
+            return RedirectToAction("Index");
         }
-
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            KuraKura kura = kuras.FirstOrDefault(b => b.id == id);
-
-            if (kura == null)
-            {
-                return NotFound();
-            }
-
-            return View(kura);
-        }
-
         [HttpPost]
         public IActionResult Edit(KuraKura kura)
         {
-            if (ModelState.IsValid)
-            {
-                KuraKura newKura = kuras.FirstOrDefault(b => b.id == kura.id);
+                // Cari KuraKura yang akan diubah berdasarkan ID atau cara lain yang sesuai.
+                KuraKura existingKura = kuras.FirstOrDefault(b => b.id == kura.id);
 
-                if (newKura == null)
+                if (existingKura != null)
                 {
+                    // Lakukan perubahan yang sesuai pada existingKura berdasarkan data yang diterima dari modal.
+                    existingKura.nama = kura.nama;
+                    existingKura.namajenis = kura.namajenis;
+                    existingKura.harga = kura.harga;
+                    TempData["SuccessMessage"] = "Kura-kura berhasil diupdate.";
+                }
+                else
+                {
+                    TempData["SuccessMessage"] = "Kura-kura gagal diupdate.";
                     return NotFound();
                 }
+            
 
-                newKura.nama = kura.nama;
-                newKura.namajenis = kura.namajenis;
-                newKura.harga = kura.harga;
- 
-                TempData["SuccessMessage"] = "Kura-kura berhasil diupdate.";
-                return RedirectToAction("Index");
-            }
-
-            return View(kura);
+            return RedirectToAction("Index");
         }
+
+
 
 
 
