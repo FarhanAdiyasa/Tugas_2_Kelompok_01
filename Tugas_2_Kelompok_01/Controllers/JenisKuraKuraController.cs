@@ -102,7 +102,7 @@ namespace Tugas_2_Kelompok_01.Controllers
             {
                 // Lakukan perubahan yang sesuai pada existingJenis berdasarkan data yang diterima dari modal.
                 existingJenis.namajenis = jenisKura.namajenis;
-                existingJenis.stok = jenisKura.namajenis;
+                existingJenis.stok = jenisKura.stok;
                 existingJenis.status = jenisKura.status;
                 TempData["SuccessMessage"] = "Kura-kura berhasil diupdate.";
             }
