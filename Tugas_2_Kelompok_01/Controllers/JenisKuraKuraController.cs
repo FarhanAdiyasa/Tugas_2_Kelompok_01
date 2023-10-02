@@ -91,39 +91,29 @@ namespace Tugas_2_Kelompok_01.Controllers
             return Json(response);
         }
 
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            JenisKuraKura jenis = jeniss.FirstOrDefault(b => b.id == id);
 
-            if (jenis == null)
+        [HttpPost]
+        public IActionResult Edit(JenisKuraKura jenisKura)
+        {
+            // Cari KuraKura yang akan diubah berdasarkan ID atau cara lain yang sesuai.
+            JenisKuraKura existingJenis = jeniss.FirstOrDefault(b => b.id == jenisKura.id);
+
+            if (existingJenis != null)
             {
+                // Lakukan perubahan yang sesuai pada existingJenis berdasarkan data yang diterima dari modal.
+                existingJenis.namajenis = jenisKura.namajenis;
+                existingJenis.stok = jenisKura.namajenis;
+                existingJenis.status = jenisKura.status;
+                TempData["SuccessMessage"] = "Kura-kura berhasil diupdate.";
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Kura-kura gagal diupdate.";
                 return NotFound();
             }
 
-            return View(jenis);
-        }
 
-        [HttpPost]
-        public IActionResult Edit(JenisKuraKura jenis)
-        {
-            if (ModelState.IsValid)
-            {
-                JenisKuraKura newJenis = jeniss.FirstOrDefault(b => b.id == jenis.id);
-
-                if (newJenis == null)
-                {
-                    return NotFound();
-                }
-
-                newJenis.namajenis = jenis.namajenis;
-                newJenis.stok = jenis.stok;
- 
-                TempData["SuccessMessage"] = "Jenis Kura-kura berhasil diupdate.";
-                return RedirectToAction("Index");
-            }
-
-            return View(jenis);
+            return RedirectToAction("Index");
         }
 
 
