@@ -126,23 +126,24 @@
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>  
                                         </div>
                                         @*Delete Modal*@
                                         <div class="modal fade" id="deleteModal_@buku.id" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">Informasi Buku</h5>
+                                                        <h5 class="modal-title">Delete Data</h5>
+                                                        <i class="warning"></i>
                                                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                       <p>Yakin Ingin Menghapus Data?</p>
+                                                        <p><i class="fas fa-exclamation-triangle text-warning"></i> Apakah Anda yakin ingin menghapus kura-kura ini?</p>
                                                     </div>
-                                                    <form method="post" asp-controller="KuraKura" asp-action="Edit" asp-route-id="@buku.id">
+                                                    <form method="post" asp-controller="KuraKura" asp-action="Delete" asp-route-id="@buku.id">
                                                     <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                        <button type="submit" class="btn btn-primary">Delete</button>
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                                     </div>
                                                     </form>

@@ -90,7 +90,7 @@ namespace Tugas_2_Kelompok_01.Controllers
                 response = new { success = false, message = ex.Message };
             }
 
-            return Json(response);
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public IActionResult Edit(KuraKura kura)
