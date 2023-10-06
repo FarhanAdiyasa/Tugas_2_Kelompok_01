@@ -2,6 +2,11 @@
 @{
     ViewData["Title"] = "Jual Kura-Kura";
     int no = 1;
+    DateTime currentDate = DateTime.Today;
+
+    // Format the date as a string in the desired format
+    string formattedDate = currentDate.ToString("dd-MM-yyyy");
+
 }
 <style>
    input {
@@ -26,13 +31,14 @@
                     <th scope="col">Checkout</th>
             </thead>
             <tbody>
+
                 @foreach (var buku in Model)
                 {
                     <tr>
                         <td>@(no++)</td>
                         <td>@buku.nama</td>
                         <td>@buku.namajenis</td>
-                        <td>@buku.harga</td>
+                        <td id="harga.@buku.id">@buku.harga</td>
                         <td>
                             <button class="plus" id="pls.@buku.id" style="cursor: pointer;background-color:transparent;border-color:transparent"> + </button>
                              &nbsp
@@ -55,25 +61,26 @@
                                 </div>
                                 <form method="post" asp-controller="Transaksi" asp-action="Edit" asp-route-id="@buku.id">
                                     <div class="modal-body">
+                                        <input  class="form-control" name="id" value="@(Model.Count + 1)" type="hidden"/>
                                         <div class="form-group">
-                                            <label asp-for="@buku.id" class="control-label">Id Transaksi</label>
-                                            <input asp-for="@buku.id" class="form-control" name="id" />
-                                            <span asp-validation-for="@buku.id" class="text-danger"></span>
+                                            <label  class="control-label">Nama Kura-Kura</label>
+                                            <input value="@buku.nama" class="form-control" name="nama" />
+                                            <span asp-validation-for="@buku.nama" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="@buku.namajenis" class="control-label">Nama Jenis</label>
-                                            <input asp-for="@buku.namajenis" class="form-control" name="namajenis" />
-                                            <span asp-validation-for="@buku.namajenis" class="text-danger"></span>
+                                            <label class="control-label">Transaction Date</label>
+                                            <input value="@formattedDate" class="form-control" name="tanggal" readonly />
+                                            <span  class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="@buku.harga" class="control-label">Penerbit</label>
-                                            <input asp-for="@buku.harga" class="form-control" name="harga" />
-                                            <span asp-validation-for="@buku.harga" class="text-danger"></span>
+                                            <label class="control-label">Quantity</label>
+                                            <input value="" class="form-control" name="kuantitas" />
+                                            <span class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="@buku.status" class="control-label">ISSN</label>
-                                            <input asp-for="@buku.status" class="form-control" name="status" />
-                                            <span asp-validation-for="@buku.status" class="text-danger"></span>
+                                            <label class="control-label">Total Price</label>
+                                            <input value="@buku.status" class="form-control" name="total" />
+                                            <span class="text-danger"></span>
                                         </div>
                                         <br />
                                         <div class="form-group">
@@ -81,7 +88,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     </div>
                                 </form>
                             </div>
@@ -120,6 +127,31 @@
             }
         });
     });
+    // Event listener untuk tombol Checkout
+    document.querySelectorAll('.btn-primary').forEach(function (checkoutButton) {
+        checkoutButton.addEventListener('click', function () {
+            let id = this.getAttribute('data-target').replace("#editModal_", ""); // Mendapatkan id buku
+            let jumlahInput = document.getElementById('jml.' + id);
+            let totalInput = document.getElementById('harga.' + id);
+            let price = totalInput.innerHTML;
+            // Mengisi nilai input di modal
+            let inputModal = document.querySelector(`#editModal_${id} [name="kuantitas"]`);
+            inputModal.value = jumlahInput.value;
+
+            let inputtotalModal = document.querySelector(`#editModal_${id} [name="total"]`);
+            let number = parseInt(price.replace("Rp.", "").replace(".", "")) * parseInt(jumlahInput.value);
+            const formattedMoney = number.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            });
+            inputtotalModal.value = formattedMoney;
+            console.log(parseInt(jumlahInput.value));
+        });
+    });
+
+   
 </script>
 
 
