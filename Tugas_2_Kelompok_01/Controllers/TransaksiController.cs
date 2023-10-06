@@ -32,9 +32,19 @@ namespace Tugas_2_Kelompok_01.Controllers
         [HttpPost]
         public IActionResult Create(Transaksi transaksi)
         {
+            if(transaksi.Quantity == 0)
+            {
+                TempData["ErrorMessage"] = "Jumlah harus lebih dari 0.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
                 transaksiList.Add(transaksi);
                 TempData["SuccessMessage"] = "Data transaksi berhasil ditambahkan.";
                 return RedirectToAction("Index");
+
+            }
+           
         }
         
     }

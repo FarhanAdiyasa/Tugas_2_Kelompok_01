@@ -16,12 +16,12 @@
                         <form method="post" asp-controller="JenisKuraKura" asp-action="Create">
                             <div class="form-group">
                                 <label asp-for="namajenis" class="control-label">Nama Jenis</label>
-                                <input asp-for="namajenis" class="form-control" name="namajenis" />
+                                <input asp-for="namajenis" class="form-control" name="namajenis" required />
                                 <span asp-validation-for="namajenis" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="stok" class="control-label">Stok</label>
-                                <input asp-for="stok" class="form-control" name="stok" />
+                                <input asp-for="stok" class="form-control" name="stok" required />
                                 <span asp-validation-for="stok" class="text-danger"></span>
                             </div>
                             <br />
