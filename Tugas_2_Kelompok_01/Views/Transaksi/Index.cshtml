@@ -1,5 +1,170 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Tugas_2_Kelompok_01.Models.Transaksi>
 @{
+    ViewData["Title"] = "Jual Kura-Kura";
+    int no = 1;
+    DateTime currentDate = DateTime.Today;
+
+    // Format the date as a string in the desired format
+    string formattedDate = currentDate.ToString("dd-MM-yyyy");
+
 }
+<style>
+    input {
+        border: none; /* Hapus border standar */
+        background-color: transparent;
+        border-bottom: 1px solid #000; /* Tambahkan garis bawah dengan warna yang Anda inginkan */
+        outline: none; /* Hilangkan garis fokus */
+        padding: 5px 0; /* Atur ruang padding jika perlu */
+        width: 200px; /* Sesuaikan lebar sesuai kebutuhan Anda */
+    }
+</style>
+<div class="row">
+    <div class="col-lg-7">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Jenis</th>
+                    <th scope="col">Harga</th>
+                    <th scope="col">     Aksi</th>
+                    <th scope="col">Checkout</th>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Cizi</td>
+                        <td>Kura-Kura Ambon</td>
+                        <td id="harga.1">Rp.500.000</td>
+                        <td>
+                            <button class="plus" id="pls.1" style="cursor: pointer;background-color:transparent;border-color:transparent"> + </button>
+                            &nbsp
+                            <input class="jumlah" id="jml.1" value="0" readonly style="width:2rem" />
+                            &nbsp
+                            <button class="minus" id="min.1" style="cursor: pointer;background-color:transparent;border-color:transparent"> - </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#editModal_1">Checkout</button>
+                        </td>
+                    </tr>
+                    @*Edit Modal*@
+                    <div class="modal fade" id="editModal_1" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Kura-Kura</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                    </button>
+                                </div>
+                                <form method="post" asp-controller="Transaksi" asp-action="Create" asp-route-id="1">
+                                    <div class="modal-body">
+                                    <input class="form-control" name="idTransaksi" value="@(Model.Count + 1)" type="hidden" />
+                                        <div class="form-group">
+                                            <label class="control-label">Nama Kura-Kura</label>
+                                            <input value="Cizi" class="form-control" name="nama" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Transaction Date</label>
+                                        <input value="@formattedDate" class="form-control" name="TransactionDate" readonly />
+                                            
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Quantity</label>
+                                        <input value="" class="form-control" name="Quantity" />
+                                            <span class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Total Price</label>
+                                        <input value="" class="form-control" name="TotalPrice" />
+                                            <span class="text-danger"></span>
+                                        </div>
+                                        <br />
+                                        <div class="form-group">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-5">
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th scope="col">Judul</th>
+                    <th scope="col">Penulis</th>
+                    <th scope="col">Penerbit</th>
+                    <th scope="col">ISSN</th>
+                    <th scope="col">Tahun Terbit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var buku in Model)
+                {
+                    <tr>
+                        <td>@buku.idTransaksi</td>
+                        <td>@buku.nama</td>
+                        <td>@buku.TransactionDate</td>
+                        <td>@buku.Quantity</td>
+                        <td>@buku.TotalPrice</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    // Event listener untuk tombol plus
+    document.querySelectorAll('.plus').forEach(function (plusButton) {
+        plusButton.addEventListener('click', function () {
+            var id = this.id.split('.')[1]; // Mendapatkan id buku
+            var jumlahInput = document.getElementById('jml.' + id);
+            var jumlah = parseInt(jumlahInput.value);
+            // Tambahkan 1 ke jumlah
+            jumlah += 1;
+            jumlahInput.value = jumlah;
+        });
+    });
+    // Event listener untuk tombol minus
+    document.querySelectorAll('.minus').forEach(function (minusButton) {
+        minusButton.addEventListener('click', function () {
+            var id = this.id.split('.')[1]; // Mendapatkan id buku
+            var jumlahInput = document.getElementById('jml.' + id);
+            var jumlah = parseInt(jumlahInput.value);
+            // Kurangi 1 dari jumlah jika jumlah lebih dari 0
+            if (jumlah > 0) {
+                jumlah -= 1;
+                jumlahInput.value = jumlah;
+            }
+        });
+    });
+    // Event listener untuk tombol Checkout
+    document.querySelectorAll('.btn-primary').forEach(function (checkoutButton) {
+        checkoutButton.addEventListener('click', function () {
+            let id = this.getAttribute('data-target').replace("#editModal_", ""); // Mendapatkan id buku
+            let jumlahInput = document.getElementById('jml.' + id);
+            let totalInput = document.getElementById('harga.' + id);
+            let price = totalInput.innerHTML;
+            // Mengisi nilai input di modal
+            let inputModal = document.querySelector(`#editModal_${id} [name="Quantity"]`);
+            inputModal.value = jumlahInput.value;
+            let inputtotalModal = document.querySelector(`#editModal_${id} [name="TotalPrice"]`);
+            let number = parseInt(price.replace("Rp.", "").replace(".", "")) * parseInt(jumlahInput.value);
+            const formattedMoney = number.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            });
+            inputtotalModal.value = formattedMoney;
+            console.log(parseInt(jumlahInput.value));
+        });
+    });
+
+</script>

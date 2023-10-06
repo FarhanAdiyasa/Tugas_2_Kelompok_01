@@ -9,10 +9,10 @@ namespace Tugas_2_Kelompok_01.Models
 
         [Required(ErrorMessage = "Tanggal penjualan wajib diisi.")]
         [DataType(DataType.Date)]
-        public DateTime TransactionDate { get; set; }
+        public String TransactionDate { get; set; }
 
         [Required(ErrorMessage = "Kura-kura wajib dipilih.")]
-        public int id { get; set; }
+        public string nama { get; set; }
 
         [Required(ErrorMessage = "Jumlah kura-kura wajib diisi.")]
         [Range(1, int.MaxValue, ErrorMessage = "Jumlah kura-kura tidak valid.")]
@@ -20,7 +20,7 @@ namespace Tugas_2_Kelompok_01.Models
 
         [Required(ErrorMessage = "Total harga wajib diisi.")]
         [Range(0, double.MaxValue, ErrorMessage = "Total harga tidak valid.")]
-        public decimal TotalPrice { get; set; }
+        public string TotalPrice { get; set; }
 
         public KuraKura kura { get; set; }
     }
