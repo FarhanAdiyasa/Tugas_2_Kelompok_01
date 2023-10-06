@@ -1,5 +1,125 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Tugas_2_Kelompok_01.Models.KuraKura>
 @{
+    ViewData["Title"] = "Jual Kura-Kura";
+    int no = 1;
 }
+<style>
+   input {
+        border: none; /* Hapus border standar */
+        background-color:transparent;
+        border-bottom: 1px solid #000; /* Tambahkan garis bawah dengan warna yang Anda inginkan */
+        outline: none; /* Hilangkan garis fokus */
+        padding: 5px 0; /* Atur ruang padding jika perlu */
+        width: 200px; /* Sesuaikan lebar sesuai kebutuhan Anda */
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Jenis</th>
+                    <th scope="col">Harga</th>
+                    <th scope="col">     Aksi</th>
+                    <th scope="col">Checkout</th>
+            </thead>
+            <tbody>
+                @foreach (var buku in Model)
+                {
+                    <tr>
+                        <td>@(no++)</td>
+                        <td>@buku.nama</td>
+                        <td>@buku.namajenis</td>
+                        <td>@buku.harga</td>
+                        <td>
+                            <button class="plus" id="pls.@buku.id" style="cursor: pointer;background-color:transparent;border-color:transparent"> + </button>
+                             &nbsp
+                            <input class="jumlah" id="jml.@buku.id" value="0" readonly  style="width:2rem"/>
+                             &nbsp
+                            <button class="minus" id="min.@buku.id" style="cursor: pointer;background-color:transparent;border-color:transparent"> - </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#editModal_@buku.id">Checkout</button>
+                        </td>
+                    </tr>
+                    @*Edit Modal*@
+                    <div class="modal fade" id="editModal_@buku.id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Kura-Kura</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                    </button>
+                                </div>
+                                <form method="post" asp-controller="Transaksi" asp-action="Edit" asp-route-id="@buku.id">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label asp-for="@buku.id" class="control-label">Id Transaksi</label>
+                                            <input asp-for="@buku.id" class="form-control" name="id" />
+                                            <span asp-validation-for="@buku.id" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="@buku.namajenis" class="control-label">Nama Jenis</label>
+                                            <input asp-for="@buku.namajenis" class="form-control" name="namajenis" />
+                                            <span asp-validation-for="@buku.namajenis" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="@buku.harga" class="control-label">Penerbit</label>
+                                            <input asp-for="@buku.harga" class="form-control" name="harga" />
+                                            <span asp-validation-for="@buku.harga" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="@buku.status" class="control-label">ISSN</label>
+                                            <input asp-for="@buku.status" class="form-control" name="status" />
+                                            <span asp-validation-for="@buku.status" class="text-danger"></span>
+                                        </div>
+                                        <br />
+                                        <div class="form-group">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    // Event listener untuk tombol plus
+    document.querySelectorAll('.plus').forEach(function (plusButton) {
+        plusButton.addEventListener('click', function () {
+            var id = this.id.split('.')[1]; // Mendapatkan id buku
+            var jumlahInput = document.getElementById('jml.' + id);
+            var jumlah = parseInt(jumlahInput.value);
+
+            // Tambahkan 1 ke jumlah
+            jumlah += 1;
+            jumlahInput.value = jumlah;
+        });
+    });
+
+    // Event listener untuk tombol minus    
+    document.querySelectorAll('.minus').forEach(function (minusButton) {
+        minusButton.addEventListener('click', function () {
+            var id = this.id.split('.')[1]; // Mendapatkan id buku
+            var jumlahInput = document.getElementById('jml.' + id);
+            var jumlah = parseInt(jumlahInput.value);
+
+            // Kurangi 1 dari jumlah jika jumlah lebih dari 0
+            if (jumlah > 0) {
+                jumlah -= 1;
+                jumlahInput.value = jumlah;
+            }
+        });
+    });
+</script>
+
+
