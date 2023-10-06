@@ -66,30 +66,31 @@ namespace Tugas_2_Kelompok_01.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public IActionResult Delete(int id)
         {
-            var response = new { success = false, message = "Gagal menghapus Jenis kura-kura." };
-
             try
             {
                 var jenis = jeniss.FirstOrDefault(b => b.id == id);
                 if (jenis != null)
                 {
                     jeniss.Remove(jenis);
-                    response = new { success = true, message = "Jenis Kura-kura berhasil dihapus." };
+                    TempData["SuccessMessage"] = "Jenis Kura-kura berhasil dihapus.";
                 }
                 else
                 {
-                    response = new { success = false, message = "Jenis Kura-kura tidak ditemukan." };
+                    TempData["ErrorMessage"] = "Jenis Kura-kura tidak ditemukan.";
                 }
             }
             catch (Exception ex)
             {
-                response = new { success = false, message = ex.Message };
+                TempData["ErrorMessage"] = "Terjadi kesalahan saat menghapus Jenis Kura-kura: " + ex.Message;
             }
 
-            return Json(response);
+            return RedirectToAction("Index");
         }
+
+
 
 
         [HttpPost]
