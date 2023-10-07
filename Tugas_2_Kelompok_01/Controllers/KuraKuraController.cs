@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Tugas_2_Kelompok_01.Models;
 
 namespace Tugas_2_Kelompok_01.Controllers
@@ -38,9 +39,26 @@ namespace Tugas_2_Kelompok_01.Controllers
             return View(kuraList);
         }
 
+
         [HttpGet]
         public IActionResult Create()
         {
+            // Buat instansiasi dari Jenis_PeralatanController
+            var jenisPeralatanController = new JenisKuraKuraController();
+
+            // Panggil metode GetJenisPeralatan pada instansiasi tersebut
+            List<JenisKuraKura> jenisKuraList = jenisPeralatanController.GetJenisKura();
+
+            if (jenisKuraList != null && jenisKuraList.Count > 0)
+            {
+                SelectList jenisList = new SelectList(jenisKuraList, "id", "namajenis");
+                ViewBag.JenisList = jenisList;
+            }
+            else
+            {
+                ViewBag.JenisList = new SelectList(new List<SelectListItem>());
+                TempData["ErrorMessage"] = "Tidak ada jenis Kura-Kura yang tersedia.";
+            }
             return View();
         }
 
@@ -55,9 +73,11 @@ namespace Tugas_2_Kelompok_01.Controllers
                 {
                     new_id++;
                 }
+               
 
                 kura.id = new_id;
                 kura.status = 1;
+
 
                 kuras.Add(kura);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
@@ -103,8 +123,9 @@ namespace Tugas_2_Kelompok_01.Controllers
                     // Lakukan perubahan yang sesuai pada existingKura berdasarkan data yang diterima dari modal.
                     existingKura.nama = kura.nama;
                     existingKura.namajenis = kura.namajenis;
-                    existingKura.harga = kura.harga;
-                    TempData["SuccessMessage"] = "Kura-kura berhasil diupdate.";
+                existingKura.harga = kura.harga;
+                    existingKura.status = kura.status;
+                TempData["SuccessMessage"] = "Kura-kura berhasil diupdate.";
                 }
                 else
                 {
@@ -114,6 +135,10 @@ namespace Tugas_2_Kelompok_01.Controllers
             
 
             return RedirectToAction("Index");
+        }
+        public List<KuraKura> GetKuraKura()
+        {
+            return kuras;
         }
 
 

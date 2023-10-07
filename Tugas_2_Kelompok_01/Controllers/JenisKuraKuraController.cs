@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Tugas_2_Kelompok_01.Models;
 
 namespace Tugas_2_Kelompok_01.Controllers
@@ -66,7 +67,6 @@ namespace Tugas_2_Kelompok_01.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
         public IActionResult Delete(int id)
         {
             try
@@ -89,9 +89,10 @@ namespace Tugas_2_Kelompok_01.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-
+        public List<JenisKuraKura> GetJenisKura()
+        {
+            return jeniss;
+        }
 
         [HttpPost]
         public IActionResult Edit(JenisKuraKura jenisKura)

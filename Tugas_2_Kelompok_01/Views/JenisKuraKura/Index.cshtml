@@ -71,7 +71,10 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label asp-for="@jenis.status" class="control-label">Status</label>
-                                                                <input asp-for="@jenis.status" class="form-control" name="status" required/>
+                                                                 <select asp-for="@jenis.status" class="form-control" name="status">
+                                                                    <option value="@(jenis.status == 1 ? "1" : "0")">@(jenis.status == 1 ? "Aktif" : "Tidak Aktif")</option>
+                                                                    <option value="@(jenis.status == 1 ? "0" : "1")">@(jenis.status == 1 ? "Tidak Aktif" : "Aktif")</option>
+                                                                </select>
                                                                 <span asp-validation-for="@jenis.status" class="text-danger"></span>
                                                             </div>
                                                             <br />

@@ -38,24 +38,26 @@
                     <th scope="col">Checkout</th>
             </thead>
             <tbody>
+                @foreach (var buku in ViewBag.KuraKuraList)
+                {
                     <tr>
-                        <td>1</td>
-                        <td>Cizi</td>
-                        <td>Kura-Kura Ambon</td>
-                        <td id="harga.1">Rp.500.000</td>
+                        <td>@(no++)</td>
+                        <td>@buku.nama</td>
+                        <td>@buku.namajenis</td>
+                        <td id="harga.@buku.id">@buku.harga</td>
                         <td>
-                            <button class="plus" id="pls.1" style="cursor: pointer;background-color:transparent;border-color:transparent"> + </button>
+                            <button class="plus" id="pls.@buku.id" style="cursor: pointer;background-color:transparent;border-color:transparent"> + </button>
                             &nbsp
-                            <input class="jumlah" id="jml.1" value="0" readonly style="width:2rem" />
+                            <input class="jumlah" id="jml.@buku.id" value="0" readonly style="width:2rem" />
                             &nbsp
-                            <button class="minus" id="min.1" style="cursor: pointer;background-color:transparent;border-color:transparent"> - </button>
+                            <button class="minus" id="min.@buku.id" style="cursor: pointer;background-color:transparent;border-color:transparent"> - </button>
                         </td>
                         <td>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#editModal_1">Checkout</button>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#editModal_@buku.id">Checkout</button>
                         </td>
                     </tr>
                     @*Edit Modal*@
-                    <div class="modal fade" id="editModal_1" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editModal_@buku.id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -63,26 +65,26 @@
                                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                                     </button>
                                 </div>
-                                <form method="post" asp-controller="Transaksi" asp-action="Create" asp-route-id="1">
+                                <form method="post" asp-controller="Transaksi" asp-action="Create" asp-route-id="@buku.id">
                                     <div class="modal-body">
-                                    <input class="form-control" name="idTransaksi" value="@(Model.Count + 1)" type="hidden" />
+                                        <input class="form-control" name="idTransaksi" value="@(Model.Count + 1)" type="hidden" />
                                         <div class="form-group">
                                             <label class="control-label">Nama Kura-Kura</label>
-                                            <input value="Cizi" class="form-control" name="nama" />
+                                            <input value="@buku.nama" class="form-control" name="nama" />
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Transaction Date</label>
-                                        <input value="@formattedDate" class="form-control" name="TransactionDate" readonly />
-                                            
+                                            <input value="@formattedDate" class="form-control" name="TransactionDate" readonly />
+                                            <span class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Quantity</label>
-                                        <input value="" class="form-control" name="Quantity" readonly />
+                                            <input value="" class="form-control" name="Quantity" />
                                             <span class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Total Price</label>
-                                        <input value="" class="form-control" name="TotalPrice" readonly />
+                                            <input value="@buku.status" class="form-control" name="TotalPrice" />
                                             <span class="text-danger"></span>
                                         </div>
                                         <br />
@@ -97,6 +99,7 @@
                             </div>
                         </div>
                     </div>
+                }
             </tbody>
         </table>
     </div>

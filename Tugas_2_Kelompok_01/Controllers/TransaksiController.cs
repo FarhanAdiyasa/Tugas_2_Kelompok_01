@@ -25,6 +25,22 @@ namespace Tugas_2_Kelompok_01.Controllers
         public IActionResult Index()
         {
             List<Transaksi> transaksiData = transaksiList.ToList();
+            // Buat instansiasi dari Jenis_PeralatanController
+            var kurakuraController = new KuraKuraController();
+
+            // Panggil metode GetJenisPeralatan pada instansiasi tersebut
+            List<KuraKura> kurakuraList = kurakuraController.GetKuraKura();
+
+            if (kurakuraList != null && kurakuraList.Count > 0)
+            {
+                ViewBag.KuraKuraList = kurakuraList;
+            }
+            else
+            {
+                ViewBag.JenisList = new SelectList(new List<SelectListItem>());
+                TempData["ErrorMessage"] = "Tidak ada jenis Kura-Kura yang tersedia.";
+            }
+           
             return View(transaksiData);
         }
 

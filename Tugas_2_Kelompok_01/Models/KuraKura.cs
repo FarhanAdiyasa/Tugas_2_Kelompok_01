@@ -15,7 +15,6 @@ namespace Tugas_2_Kelompok_01.Models
         public string namajenis { get; set; }
 
         [Required(ErrorMessage = "Harga wajib diisi.")]
-        [RegularExpression(@"^(Rp\s?)?(\d{1,3}(,\d{3})*|(\d+))(\.\d{1,2})?$", ErrorMessage = "Format harga Rupiah tidak valid. Gunakan format yang benar.")]
         public string harga { get; set; }
 
         [Range(0, 1, ErrorMessage = "Status tidak valid.")]

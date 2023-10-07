@@ -31,11 +31,11 @@
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Judul</th>
-                                <th scope="col">Penulis</th>
-                                <th scope="col">Penerbit</th>
-                                <th scope="col">ISSN</th>
-                                <th scope="col">Tahun Terbit</th>
+                                <th scope="col">Id Kura-Kura</th>
+                                <th scope="col">Nama Kura-Kura</th>
+                                <th scope="col">Nama Jenis Kura-Kura</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -48,7 +48,7 @@
                                     <td>@buku.nama</td>
                                     <td>@buku.namajenis</td>
                                     <td>@buku.harga</td>
-                                    <td>@buku.status</td>
+                                    <td>@(buku.status == 1 ? "Aktif" : "Tidak Aktif")</td>
                                     <td>
                                         <button class="btn btn-sm btn-danger delete-button" data-toggle="modal" data-target="#deleteModal_@buku.id">
                                             <i class="fas fa-trash"></i>
@@ -83,13 +83,16 @@
                                                                 <span asp-validation-for="@buku.namajenis" class="text-danger"></span>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label asp-for="@buku.harga" class="control-label">Penerbit</label>
+                                                                <label asp-for="@buku.harga" class="control-label">Harga</label>
                                                                 <input asp-for="@buku.harga" class="form-control" name="harga" required />
                                                                 <span asp-validation-for="@buku.harga" class="text-danger"></span>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label asp-for="@buku.status" class="control-label">ISSN</label>
-                                                                <input asp-for="@buku.status" class="form-control" name="status" required />
+                                                                <label asp-for="@buku.status" class="control-label">Status</label>
+                                                                <select asp-for="@buku.status" class="form-control" name="status">
+                                                                    <option value="@(buku.status == 1 ? "1" : "0")">@(buku.status == 1 ? "Aktif" : "Tidak Aktif")</option>
+                                                                    <option value="@(buku.status == 1 ? "0" : "1")">@(buku.status == 1 ? "Tidak Aktif" : "Aktif")</option>
+                                                                </select>
                                                                 <span asp-validation-for="@buku.status" class="text-danger"></span>
                                                             </div>
                                                             <br />

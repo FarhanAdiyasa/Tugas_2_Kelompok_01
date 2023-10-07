@@ -21,8 +21,12 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="namajenis" class="control-label">nama jenis</label>
-                                <input asp-for="namajenis" class="form-control" name="namajenis" required />
-                                <span asp-validation-for="namajenis" class="text-danger"></span>
+                                <select asp-for="namajenis" class="form-control" name="namajenis">
+                                    @foreach (var jenis in ViewBag.JenisList)
+                                    {
+                                        <option value="@jenis.Text">@jenis.Text</option>
+                                    }
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label asp-for="harga" class="control-label">harga</label>
@@ -31,7 +35,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="status" class="control-label">status</label>
-                                <input asp-for="status" class="form-control" name="status" required />
+                                <input asp-for="status" class="form-control" name="status" value="Aktif" readonly />
                                 <span asp-validation-for="status" class="text-danger"></span>
                             </div>
                             <div class="form-group">
