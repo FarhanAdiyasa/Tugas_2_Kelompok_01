@@ -15,6 +15,18 @@
     <link href="~/Content/asset/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+    </style>
 
     <!-- Custom styles for this template-->
     <link href="~/Content/asset/css/sb-admin-2.min.css" rel="stylesheet">
@@ -118,7 +130,13 @@
             <div class="sidebar-card d-none d-lg-flex">
                 <img class="sidebar-card-illustration mb-2" src="~/Content/asset/img/patch-question.svg" alt="...">
                 <p class="text-center mb-2"><strong>Kura-Kura</strong> apa yang manis? Kurasa itu gue. </p>
-                <a class="btn btn-success btn-sm" href="#">Tombol Ketawa</a>
+                <a class="btn btn-success btn-sm" id="showPopup" href="#">Tombol Ketawa</a>
+                <div id="popup" class="popup">
+                    <span style="font-size:5rem;">😂</span>
+                    <span style="font-size:5rem;">😂</span>
+                    <span style="font-size:5rem;">😂</span>
+                </div>
+
             </div>
 
         </ul>
@@ -190,6 +208,20 @@
 
     <!-- Page level custom scripts -->
     <script src="~/Content/asset/js/demo/datatables-demo.js"></script>
+    <script>
+        const showPopupButton = document.getElementById('showPopup');
+        const popup = document.getElementById('popup');
+
+        showPopupButton.addEventListener('click', () => {
+            popup.style.display = 'block';
+
+            // Sembunyikan popup setelah beberapa detik
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000); // Popup akan hilang setelah 3 detik
+        });
+    </script>
+
 
 </body>
 
